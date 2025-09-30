@@ -66,12 +66,12 @@ const isPythonReady = computed(() => {
 </script>
 <template>
   <div class="w-min-[30em] *:my-2">
-    <h1>Razer Basilisk V3 Onboard Memory Tools</h1>
-    <div>Browser must support WebHID to work, Click request and select device</div>
+    <h1><img src="/snakemouse.svg" class="inline h-[1em]" />Razer Basilisk V3 Onboard Memory Tools</h1>
+    <div>Browser must support WebHID to work, Click "Connect to mouse" and select device</div>
     <div>Select Razer Basilisk V3 or (1532:0099)</div>
     <div><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebHID_API#browser_compatibility" class="link">You browser</a> <span class="bg-success text-success-content" v-if="hasHid()">probably supports WebHID</span><span class="bg-error text-error-content" v-else>does not support WebHID</span></div>
-    <button class="btn btn-primary block w-96" @click="requestDevice" :class="{'btn-disabled': !isPythonReady}">Request</button>
-    <button class="btn block w-96" @click="noHardwareMode" :class="{'btn-disabled': !isPythonReady}">No hardware mode</button>
+    <button class="btn btn-primary block w-96" @click="requestDevice" :class="{'btn-disabled': !isPythonReady}">Connect to mouse</button>
+    <button class="btn block w-96" @click="noHardwareMode" :class="{'btn-disabled': !isPythonReady}">Use without actual mouse</button>
     <div v-if="!isPythonReady"><span class="loading loading-spinner"></span><span>Loading python</span></div>
     <PythonRunner :py="runPython ?? (() => null)" />
     <details>

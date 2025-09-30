@@ -151,6 +151,7 @@ class MacroOpClass(Enum):
     DELAY_2 = 0x12
 
 class MacroOpMouseButton(Flag):
+    NONE = 0x00
     LEFT = 0x01
     RIGHT = 0x02
     MIDDLE = 0x04

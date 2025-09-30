@@ -83,6 +83,7 @@ function setParams() {
 <template>
   <div class="min-w-[30em] flex flex-col gap-2" @keydown.s="stopCalibration">
     <h2>Sensor config</h2>
+    <div>Please see reverse-engineer documentation for details.</div>
     <div class="grid gap-4 w-full place-items-center" style="grid-template-columns: repeat(4, max-content);" v-if="hard">
       <span>Smart</span>
       <label class="label cursor-pointer space-x-4">

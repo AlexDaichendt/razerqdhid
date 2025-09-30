@@ -56,7 +56,7 @@ const enableAllConfigSections = ref(false);
 
 </script>
 <template>
-  <h1>Razer Basilisk V3 Onboard Memory Tools</h1>
+  <h1><img src="/snakemouse.svg" class="inline h-[1em]" />Razer Basilisk V3 Onboard Memory Tools</h1>
   <div>
     Profile:
     <div class="join">

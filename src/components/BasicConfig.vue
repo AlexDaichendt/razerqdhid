@@ -94,14 +94,14 @@ function dpiCopyXY() {
     </div>
     <h2>Polling rate</h2>
     <div class="flex flex-row gap-4">
-      <input type="number" min="1" max="255" class="input input-sm input-bordered w-16" v-model.lazy="pollingRateInput"/> 
+      <div>Report every <input type="number" min="1" max="255" class="input input-sm input-bordered w-16" v-model.lazy="pollingRateInput"/> ms</div>
       <div class="flex-1">
         <input type="range" min="0" max="4" value="0" class="range" step="1" v-model.lazy="pollingRateRange" />
         <div class="input-label">
-          <span>ms</span><span>125</span><span>250</span><span>500</span><span>1000</span>
+          <span>63</span><span>125</span><span>250</span><span>500</span><span>1000</span>
         </div>
       </div>
-      <span class="w-12">{{ (1000 / (pollingRate ?? 1)).toFixed(0) }}</span>
+      <span class="w-12">{{ (1000 / (pollingRate ?? 1)).toFixed(0) }} Hz</span>
     </div>
     <h2>DPI</h2>
     <div class="grid grid-rows-2 grid-flow-col place-items-baseline justify-start">

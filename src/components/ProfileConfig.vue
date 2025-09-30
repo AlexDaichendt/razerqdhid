@@ -68,6 +68,8 @@ async function importConfig() {
 <template>
   <div class="form-control">
     <h2>Profile</h2>
+    <div>Create and delete profiles:</div>
+    <div class="h-2"></div>
     <div class="grid grid-rows-2 grid-flow-col" v-if="hard">
       <template v-for="p in allProfileList">
         <span class="inline-flex justify-center items-center" :class="{'bg-info text-info-content': profileList.includes(p), 'opacity-40': !profileList.includes(p)}">
@@ -85,13 +87,18 @@ async function importConfig() {
         <button class="btn btn-sm min-w-24 btn-disabled join-item" v-else></button>
       </template>
     </div>
+    <div class="h-2"></div>
+    <div>Export and import profile configs (YAML):</div>
     <textarea
       placeholder="Profile text data"
       class="textarea textarea-bordered textarea-sm w-full h-40 my-4"
       v-model="profileTextData"></textarea>
     <div class="flex flex-row w-full gap-4">
-      <button class="btn flex-1" @click="exportConfig">Export config</button>
-      <button class="btn flex-1" @click="importConfig">Import config</button>
+      <button class="btn flex-1" @click="exportConfig">Export configs</button>
+      <button class="btn flex-1" @click="importConfig">Import configs</button>
     </div>
+    <div class="max-w-xl">Importing and exporting operates on currently selected profile. That is the row below the title.</div>
+    <div class="max-w-xl">The config can be exported and imported to other profile, thus cloning an existing profile. It can also be saved or shared.</div>
+    <div class="max-w-xl">The config does not include macro and sensor data. These are stored separately.</div>
   </div>
 </template>

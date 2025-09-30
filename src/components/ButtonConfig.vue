@@ -217,11 +217,13 @@ function parseIntDefault(s: string, defaultValue: number) {
       </div>
     </div>
     <div class="flex flex-row gap-4 place-items-center">
-      <span>Hypershift</span>
+      <span>When Hypershift on</span>
       <label class="label cursor-pointer space-x-4">
         <input type="checkbox" class="toggle toggle-sm" v-model="selectedHypershift"/>
       </label>
     </div>
+    <div>Each button can be assigned a function when Hypershift is off, another function when Hypershift is on.</div>
+    <div>Assign a button to "hypershift_toggle" to let it switch Hypershift status.</div>
     <h2>Function</h2>
     <div class="grid grid-cols-4 items-baseline mb-4">
       <button class="btn btn-sm"
@@ -316,6 +318,8 @@ function parseIntDefault(s: string, defaultValue: number) {
       </div>
     </div>
     <div v-else-if="selectedButtonFunction[0] == 'macro'">
+      <div>For macro to work, the Macro ID muse be present. You can assign and edit macros in the "Macro" menu.</div>
+      <div class="h-2"></div>
       <div class="flex flex-row gap-4 place-items-center">
         <span>Macro ID</span>
         <input class="input input-sm input-bordered"
@@ -492,10 +496,13 @@ function parseIntDefault(s: string, defaultValue: number) {
       </div>
     </div>
     <div v-else-if="selectedButtonFunction[0] == 'hypershift_toggle'">
+      Holding this button enables hypershift
     </div>
     <div v-else-if="selectedButtonFunction[0] == 'scroll_mode_toggle'">
+      Pushing this button changes wheel mode
     </div>
     <div v-else-if="selectedButtonFunction[0] == 'custom'">
+      Here you can set custom values. It is mostly useless.
       <div class="flex flex-row gap-4 place-items-center">
         <span>class: </span>
         <input type="number" min="0" max="255" class="input input-sm input-bordered w-24"

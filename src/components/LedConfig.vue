@@ -94,7 +94,7 @@ function applyToAll() {
       <span>Static</span>
       <input type="color" :disabled="selectedRegionEffect[0] !== 'static'"
        :value="'#' + (selectedRegionEffect[3]?.[0]?.map((x: number) => x.toString(16).padStart(2, '0')).join('') || '000000')"
-       @change="(event) => selectedRegionEffect[3][0] = [...Array.from({ length: 3 }, (_, i) => parseInt(event.target?.value.slice(1).slice(i * 2 + 1, i * 2 + 3), 16))]"/>
+       @change="(event) => selectedRegionEffect[3][0] = [...Array.from({ length: 3 }, (_, i) => parseInt(event.target?.value.slice(1).slice(i * 2, i * 2 + 2), 16))]"/>
     </label>
     <label class="flex flex-row gap-4 content-baseline">
       <input type="radio" class="radio"
@@ -144,6 +144,6 @@ function applyToAll() {
           @change="(event) => selectedRegionBrightness = event.target?.value"/>
       </div>
     </div>
-    <button class="btn" @click="applyToAll()">Apply to all</button>
+    <button class="btn" @click="applyToAll()">Apply to all regions</button>
   </div>
 </template>

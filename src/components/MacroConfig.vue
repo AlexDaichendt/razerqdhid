@@ -53,7 +53,11 @@ def f(macro_id, func):
     if ct == 'custom':
       macro_op = pt.MacroOp(op_type=DummyEnum(args['op_type']), op_value=bytes(args['op_value']))
     elif ct == 'mouse_button':
-      macro_op = pt.MacroOp().set_mouse_button(pt.MacroOpMouseButton[args['button']])
+      macro_op = pt.MacroOp()
+      combined_flags = pt.MacroOpMouseButton.NONE
+      for flag_str in args['button'].split('|'):
+        combined_flags |= pt.MacroOpMouseButton[flag_str.strip().upper()]
+      macro_op.set_mouse_button(combined_flags)
     else:
       macro_op = pt.MacroOp()
       if 'value' in args:
@@ -134,16 +138,17 @@ async function importMacros() {
 
 </script>
 <template>
-  <div class="min-w-96">
-    <h2>Select</h2>
-    <select class="select select-bordered w-full max-w-xs" v-model="selectedMacroId">
-      <option :value="null">(none)</option>
-      <option v-for="macroId in macroList" :value="macroId">{{ '0x' + macroId.toString(16).padStart(4, '0') }}</option>
-    </select>
-    <div>
+  <div class="min-w-[30em]">
+    <h2>Edit individual macros</h2>
+    <label class="flex flex-row gap-4 items-baseline">
+      <span class="flex-shrink-0">Select existing</span>
+      <select class="select select-bordered w-full max-w-xs" v-model="selectedMacroId">
+        <option :value="null">(none)</option>
+        <option v-for="macroId in macroList" :value="macroId">{{ '0x' + macroId.toString(16).padStart(4, '0') }}</option>
+      </select>
       <button class="btn btn-primary" @click="tryLoad">Load</button>
       <button class="btn btn-error" @click="tryDelete">Delete</button>
-    </div>
+    </label>
     <textarea
       placeholder="Macro content"
       class="textarea textarea-bordered textarea-sm w-full h-40 my-4"
@@ -151,9 +156,11 @@ async function importMacros() {
     <div class="flex flex-row gap-4 place-items-center">
       <button class="btn btn-primary" @click="trySave">Save as id</button>
       <input type="text" class="input input-bordered"
+        placeholder="0~65535 or 4 hex digits"
         :value="saveTargetMacroId !== null ? '0x' + saveTargetMacroId.toString(16).padStart(4, '0') : ''"
         @change="(event) => saveTargetMacroId = parseIntDefault(event.target?.value, null)" />
     </div>
+    <h2>Export or import all</h2>
     <textarea
       placeholder="All Macros"
       class="textarea textarea-bordered textarea-sm w-full h-40 my-4"
@@ -161,6 +168,46 @@ async function importMacros() {
     <div class="flex flex-row w-full gap-4">
       <button class="btn flex-1" @click="exportMacros">Export</button>
       <button class="btn flex-1" @click="importMacros">Import</button>
+    </div>
+    <div class="w-[30em]">
+      A macro consists of multiple operations. It's represented with a YAML list in above textarea.
+      Each list item is a 2-tuple with a type and a parameter object.
+      Some possible values are listed below:
+      <ol class="list-disc">
+        <li>
+          [ mouse_button , { button: LEFT } ]: mouse button press.
+          button can be NONE, LEFT, RIGHT, MIDDLE, BACKWARD, FORWARD and can be combined with "|".
+          a single operation represents a change of state. If one click is needed, you can use: mouse_button, delay, mouse_button with NONE.
+        </li>
+        <li>
+          [ delay, { value: 100 }]: delay in the unit of milliseconds
+        </li>
+        <li>
+          [ mouse_wheel, { value: 1 }]: rotate mouse wheel for x steps
+        </li>
+        <li>
+          [ keyboard, { key: 4, is_up: True }]: keyboard key press. is_up represents key up or key down. key code is HID code.
+        </li>
+        <li>
+          [ system, { key: 0, is_b: false }]: See reverse-engineering documentation for details
+        </li>
+        <li>
+          [ consumer, { key: 0, is_b: false }]: HID consumer control code. is_b does not affect the function.
+        </li>
+      </ol>
+      Here is an example:
+      <br />
+      <br />
+      <code><pre>
+[
+  [ mouse_button, { button: LEFT } ],
+  [ delay, { value: 100 } ],
+  [ mouse_button, { button: NONE } ],
+  [ keyboard, { key: 4, is_up: False }],
+  [ delay, { value: 200 } ],
+  [ keyboard, { key: 4, is_up: True }],
+]
+      </pre></code>
     </div>
   </div>
 </template>
