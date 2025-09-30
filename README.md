@@ -1,5 +1,18 @@
 
-# Razer Quick&Dirty HID
+# Razer Quick & Dirty HID
+
+更改 Razer Basilisk V3 (雷蛇巴蛇V3) 鼠标配置，使用抓包分析到的协议，没有借助雷蛇任何软件的代码。使用 Python 调用 [libusb/hidapi](https://github.com/libusb/hidapi) 通信，可跨平台使用。实现比较简单，主要是可以更改按键功能，可以读取和修改宏（巨集），其他开源软件没有实现。
+
+借鉴了 [CalcProgrammer1/OpenRGB](https://gitlab.com/CalcProgrammer1/OpenRGB) 和 [openrazer](https://github.com/openrazer/openrazer) 的函数名、命令数值等，但是完全没有使用那些代码。
+
+本项目按照实现的顺序，分为两个部分，一个是实现雷蛇鼠标 HID 协议的 python 脚本部分，另一个是使用 Vue.js 编写的网页应用部分。
+
+这个项目可以通过两种方法使用：
+
+- 其一是在电脑本地运行 python 脚本，这种方式可以使用 python 代码操控鼠标的各项设置，适合编写自动化脚本、绑定快捷键修改鼠标设置等。
+- 其二是编译并运行（或直接通过项目发布的网站链接使用） Vue.js 实现的网页应用。这种方式使用时，程序完全在浏览器中运行，没有后端部分，通过浏览器的 WebHID API，前端 JavaScript 代码可以直接和鼠标通信。适合手动调整设置。
+
+因为我只有Razer Basilisk V3 (雷蛇巴蛇V3，有线版) 这一款鼠标，其他的比较贵我没有买，所以目前只支持这一款。诸如无线版，什么终级版、专业版、35K 现在都**不**支持，但是我相信它们的协议都是差不多的，稍微修改一下，有可能可以正常运行，但是我不对可用性做保证，弄坏了也没法负责。
 
 Changes configuration of Razer Basilisk V3 with analyzed reverse-engineered protocol. The project doesn't use proprietary code in Razer Synapse software. It uses python with [libusb/hidapi](https://github.com/libusb/hidapi) to communicate with the mouse, so it's cross-platform.
 
@@ -7,37 +20,44 @@ The implementation is easy, and its main functionality is to be able to bind mou
 
 The project borrows some definitions and command values from [CalcProgrammer1/OpenRGB](https://gitlab.com/CalcProgrammer1/OpenRGB) and [openrazer](https://github.com/openrazer/openrazer), but other than that, it doesn't use any code from those projects.
 
-更改 Razer Basilisk V3 (雷蛇巴蛇V3) 鼠标配置，使用抓包分析到的协议，没有借助雷蛇任何软件的代码。使用 Python 调用 [libusb/hidapi](https://github.com/libusb/hidapi) 通信，可跨平台使用。实现比较简单，主要是可以更改按键功能，可以读取和修改宏（巨集），其他开源软件没有实现。
+In the order of implementation, this project is divided into two parts: first is the python scripts to implement the HID protocol of Razer mouse, and another is the web app written with Vue.js.
 
-借鉴了 [CalcProgrammer1/OpenRGB](https://gitlab.com/CalcProgrammer1/OpenRGB) 和 [openrazer](https://github.com/openrazer/openrazer) 的函数名、命令数值等，但是完全没有使用那些代码。
+This project can be used in two ways:
 
-## 使用方法 / Usage method
+- The first way is to run the python scripts locally on your computer. In this way python code can be written to control settings of the mouse. It is suitable to use in automation scripting, or changing mouse settings with a hotkey.
+- The second way is to compile and run (or access the published website link) the Vue.js web app. With this way, the program runs totally in the browser. There is no backend part. By utilizing WebHID API of the browser, the front-end JavaScript code can communicate directly with the mouse. It is suitable to adjust settings manually.
 
-Front-end application:
+Because I only have one Basilisk V3 (Wired) mouse, and other models are somewhat expensive, this project only supports this specific model now. For models such as "Ultimate" "Pro" "35K", it is currently NOT supported. However I believe the protocols are mostly the same. With little modification it may be possible to work just fine. Nevertheless I cannot ensure it is usable, and I can't be responsible if it breaks your mouse.
 
-Written with Vue.js. You can use Node.js to `npm install` and run `npm run dev` to launch development server. Or you can directly visit public site under GitHub descriptions.
+## 编译和运行 / Compiling and Running
 
-Python backend:
+### 本地运行 python 脚本 / Run python scripts locally
 
-It's located in [py directory](./public/py/), and it can be used independent of front-end part.
-
-You should download [libusb/hidapi](https://github.com/libusb/hidapi), put it in a place python can detect, then use pip to install <https://pypi.org/project/hid/>.
-
-前端应用：
-
-使用 Vue 编写。使用 Node.js `npm install` 以后，使用 `npm run dev` 启动开发服务器，即可使用。或直接访问 GitHub 简介下方的网址。
-
-Python 后端：位于 [py 目录](./public/py/)中，可以独立运行。
+首先，`git clone` 本仓库，然后，查看位于 [public/py 目录](./public/py/)的 python 脚本
 
 下载 [libusb/hidapi](https://github.com/libusb/hidapi)，放到 Python 可以加载的位置。使用 pip 安装 <https://pypi.org/project/hid/>。
 
+Firstly, `git clone` this repository. And then, find python scripts in [public/py folder](./public/py/).
+
+Download [libusb/hidapi](https://github.com/libusb/hidapi) and put it in a place Python can load. Then install <https://pypi.org/project/hid/> with pip.
+
+### 网页应用 / Web app
+
+直接访问 GitHub 简介下方的网址即可使用，需要[浏览器支持 WebHID API](https://developer.mozilla.org/en-US/docs/Web/API/WebHID_API#browser_compatibility)。如果要开发本项目的话，首先 `git clone` 本仓库到本地，在项目根目录下使用 Node.js `npm install` 以后，使用 `npm run dev` 启动开发服务器，即可使用。也可以使用 `npm run build` 编译生成静态网页。
+
+网页应用的代码包括 `src` 目录下 Vue.js 编写的网页前端，它通过 [Pyodide](https://github.com/pyodide/pyodide) 在浏览器中运行 [public/py 目录](./public/py/)下的 python 脚本，并使用 WebHID API 实现与 hidapi 相同的接口，以达到免去后端运行的目的。因此，两种运行方式共享一套 python 编写的协议实现。
+
+It is usable with the link below github description. It needs the [browser to support WebHID API](https://developer.mozilla.org/en-US/docs/Web/API/WebHID_API#browser_compatibility). If you need to develop this project, first `git clone` this repo. Then `npm install` with Node.js in the project root. Start the development server with `npm run dev` and it should work. You can also use `npm run build` to generate static pages.
+
+The web app includes codes in `src` folder written with Vue.js. It runs python scripts located in [public/py folder](./public/py/) in the browser through [Pyodide](https://github.com/pyodide/pyodide). The same interface of hidapi library is reimplemented with WebHID API to eliminate the need of a backend server. Therefore, two ways of running share a same implementation of the protocol with Python.
+
 ## 协议逆向文档 / Reverse-engineer documentation
+
+分析出的协议和命令列表见[协议逆向文档](./docs/basic.md)
 
 The protocol and command list analyzed is [this documentation](./docs/basic-en.md).
 
 My native language is Chinese so it was [originally written in Chinese](./docs/basic.md) and translated to English with [豆包](https://www.doubao.com/). It may contain mistakes and bad formatting, it is advised that you can use a webpage translator and compare that version with this version, or just request me to clarify it directly in the issues section.
-
-分析出的协议和命令列表见[协议逆向文档](./docs/basic.md)
 
 ### AI 总结 / AI Summary
 
